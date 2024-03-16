@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from 'react';
+import MoodSelector from './components/MoodSelector';
+import SubmitButton from './components/SubmitButton';
+import ConfirmationMessage from './components/ConfirmationMessage';
 
 function App() {
+  const [selectedMood, setSelectedMood] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleMoodSelect = (mood) => {
+    setSelectedMood(mood);
+  };
+
+  const handleSubmit = () => {
+    // Vérifier si une humeur a été sélectionnée avant de soumettre
+    if (selectedMood) {
+      // Vous pouvez traiter la soumission des données ici
+      setSubmitted(true);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex justify-center items-center h-screen">
+      <div className="container mx-auto px-4">
+        {!submitted ? (
+          <div>
+            <h1 className="text-3xl font-bold font-mono mb-4">Daily Mood Tracker</h1>
+            <MoodSelector onSelect={handleMoodSelect} />
+            {/* Passer la fonction handleSubmit comme prop onSubmit */}
+            <SubmitButton onSubmit={handleSubmit} />
+          </div>
+        ) : (
+          <ConfirmationMessage mood={selectedMood} />
+        )}
+      </div>
     </div>
   );
 }
